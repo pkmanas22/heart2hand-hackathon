@@ -2,7 +2,7 @@
 import { getAnalytics, isSupported } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { collection, getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 interface FirebaseConfig {
@@ -43,3 +43,4 @@ export { analytics };
 export default firebaseApp;
 export const auth = getAuth(firebaseApp);
 export const db = getFirestore(firebaseApp);
+export const userCollection = collection(db, "users");
