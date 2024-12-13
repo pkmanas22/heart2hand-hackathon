@@ -56,7 +56,7 @@ export default function UserSignin() {
       }
 
       const role = userDoc.data().role;
-      router.push(`/dashboard/${role}`);
+      router.push(`/${role}`);
     } catch (error) {
       console.error("Error during signup:", error);
       alert(error.message);
