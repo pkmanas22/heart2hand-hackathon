@@ -51,7 +51,7 @@ export default function ImpactStories() {
             height={50}
             src={currentStory.image}
             alt={currentStory.title}
-            className="w-full h-64 object-cover rounded-md mb-4"
+            className="w-full h-64 object-contain rounded-md mb-4"
           />
           <p>{currentStory.summary}</p>
         </CardContent>
