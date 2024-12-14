@@ -70,7 +70,7 @@ export function SignupComponent({ role }: { role: string }) {
   const handleGoogleLogin = () => {};
 
   return (
-    <Card className="mx-auto max-w-sm">
+    <Card className="mx-auto max-w-sm my-16">
       <CardHeader>
         <CardTitle className="text-2xl text-center font-bold">
           Create an account

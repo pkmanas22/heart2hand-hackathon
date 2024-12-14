@@ -78,7 +78,7 @@ export function CreateNewRequest() {
     const validFiles = files.filter(
       (file) =>
         (file.type === "image/jpeg" || file.type === "image/png") &&
-        file.size <= 5 * 1024 * 1024
+        file.size <= 2 * 1024 * 1024
     );
 
     if (validFiles.length + imageFiles.length <= 5) {
@@ -257,7 +257,7 @@ export function CreateNewRequest() {
                         <div className="space-y-4">
                           <div>
                             <Label htmlFor="imageUpload">
-                              Upload Images (Max 5, JPEG/PNG, 5MB each)
+                              Upload Images (Max 5, JPEG/PNG, 2MB each)
                             </Label>
                             <Input
                               id="imageUpload"
