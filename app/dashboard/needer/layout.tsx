@@ -1,7 +1,4 @@
-import { Inter } from "next/font/google";
 import { SidebarProvider } from "@/components/ui/sidebar";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Needer Dashboard",
@@ -14,10 +11,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
         <SidebarProvider>{children}</SidebarProvider>
-      </body>
-    </html>
   );
 }
