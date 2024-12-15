@@ -12,12 +12,10 @@ const protectedRoutes = [
 export const config = {
     matcher: [
         "/dashboard/:path*", // Protect all dashboard routes
-        "/signin",           // Allow access to sign-in
-        "/signup/:path*",    // Allow access to sign-up and nested paths
     ],
 };
 
-export default async function middleware(request:NextRequest) {
+export default async function middleware(request: NextRequest) {
     const { nextUrl } = request;
 
     // Retrieve token from NextAuth
@@ -25,12 +23,12 @@ export default async function middleware(request:NextRequest) {
 
     const isAuthRoute = nextUrl.pathname.startsWith("/signin") || nextUrl.pathname.startsWith("/signup");
 
-    // If no token and route requires authentication, redirect to signin
+    // If user is not logged in and tries to access a protected route, redirect to /signin
     if (!token && protectedRoutes.some((route) => nextUrl.pathname.startsWith(route))) {
         return NextResponse.redirect(new URL("/signin", request.url));
     }
 
-    // If token exists and user is authenticated
+    // If user is logged in
     if (token) {
         const validRoles = ["admin", "helper", "needer"];
         const userRole = token.role;
@@ -40,7 +38,7 @@ export default async function middleware(request:NextRequest) {
             return NextResponse.redirect(new URL("/signin", request.url));
         }
 
-        // Redirect users to their respective dashboard if they try to access signin/signup
+        // Redirect authenticated users away from signin/signup routes to their dashboard
         if (isAuthRoute) {
             return NextResponse.redirect(new URL(`/dashboard/${userRole}`, request.url));
         }
@@ -51,6 +49,10 @@ export default async function middleware(request:NextRequest) {
         }
     }
 
-    // Allow access to sign-in and sign-up routes if unauthenticated
+    // Allow unauthenticated users access to signin/signup routes
+    if (isAuthRoute && !token) {
+        return NextResponse.next();
+    }
+
     return NextResponse.next();
 }

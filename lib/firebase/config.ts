@@ -42,3 +42,4 @@ export { analytics };
 export default firebaseApp;
 export const db = getFirestore(firebaseApp);
 export const userCollection = collection(db, "users");
+export const requestCollection = collection(db, "requests");

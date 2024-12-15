@@ -1,19 +1,29 @@
 import { fetchUserDetails } from '@/lib/firebase/utils';
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
-import NextAuth from "next-auth"
+import NextAuth, { Session } from "next-auth"
 import { JWT } from 'next-auth/jwt';
 import { AdapterUser } from 'next-auth/adapters';
 
 interface token extends JWT {
     role: string;
-    uid: string;
+    id: string;
 };
 
 interface user extends AdapterUser {
     role: string;
-    uid: string;
+    id: string;
 }
+
+export interface session extends Session {
+    user?: {
+        id: string;
+        role: string
+        name?: string | null
+        email?: string | null
+        image?: string | null
+    }
+};
 
 const handler = NextAuth({
     providers: [
@@ -77,23 +87,23 @@ const handler = NextAuth({
         jwt: async ({ token, user }) => {
             const newToken: token = token as token;
             const myUser: user = user as user;
-            
+            // console.log("user", user)
             if (user) {
                 newToken.role = myUser.role;
-                newToken.uid = myUser.uid
+                newToken.id = myUser.id
             }
-            // console.log(token);
+            // console.log("token, token");
             return token;
         },
         session: async ({ session, token }) => {
-            return {
-                ...session,
-                user: {
-                    ...session.user,
-                    uid: token.uid,
-                    role: token.role,
-                },
-            };
+            const newSession: session = session as session;
+            if (newSession.user && token.id) {
+                newSession.user.id = token.id as string;
+                newSession.user.role = token.role as string;
+            } else {
+                console.error("session error occured")
+            }
+            return newSession;
         },
     },
     pages: {

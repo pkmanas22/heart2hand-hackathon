@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   experimental: {
     authInterrupts: true,
   },
+  images: {
+    domains: ['res.cloudinary.com'],
+  },
 };
 
 export default nextConfig;

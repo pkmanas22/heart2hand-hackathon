@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -25,19 +26,53 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { Loader2 } from "lucide-react";
-import { Label } from "@/components/ui/label";
-import { X } from "lucide-react";
+import { Loader2, X } from "lucide-react";
+import Image from "next/image";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { requestSchema } from "@/lib/zod";
-import Image from "next/image";
+import { useSession } from "next-auth/react";
+import { Label } from "../ui/label";
+
+const uploadImagesToCloudinary = async (files: File[], userId: string) => {
+  const uploadedUrls: string[] = [];
+
+  for (const file of files) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("userId", userId);
+
+    try {
+      const response = await fetch("/api/upload-image", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to upload image.");
+      }
+
+      if (result.secureUrl) {
+        uploadedUrls.push(result.secureUrl);
+      }
+    } catch (error: any) {
+      console.error(`Failed to upload ${file.name}:`, error.message);
+      alert(`Failed to upload ${file.name}: ${error.message}`);
+    }
+  }
+
+  return uploadedUrls;
+};
 
 export function CreateNewRequest() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [youtubeUrl, setYoutubeUrl] = useState("");
+
+  const { data: session } = useSession();
 
   const form = useForm({
     defaultValues: {
@@ -48,27 +83,51 @@ export function CreateNewRequest() {
       story: "",
       amount: 0,
       category: "",
-      supportingDocuments: '' // change type , string for build
+      supportingDocuments: "",
     },
     resolver: zodResolver(requestSchema),
-    mode: "onBlur", // Provides instant feedback on blur
+    mode: "onBlur",
   });
 
-  const onSubmit = async (values: unknown) => {
+  const onSubmit = async (values: any) => {
     setIsSubmitting(true);
+
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log(values, imageFiles, youtubeUrl);
+      const imgUrls = await uploadImagesToCloudinary(
+        imageFiles,
+        session?.user?.id || ""
+      );
+
+      const formBody = {
+        ...values,
+        supportingDocuments: imgUrls,
+        youtubeUrl,
+        userId: session?.user?.id || "",
+      };
+
+      const response = await fetch("/api/create-request", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formBody),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to submit the request.");
+      }
+
       alert(
         "Your request has been successfully submitted. Our team will review it shortly."
       );
       form.reset();
       setImageFiles([]);
       setYoutubeUrl("");
-    } catch (error) {
-      console.error("Submission error:", error);
-      alert("Something went wrong. Please try again.");
+    } catch (error: any) {
+      console.error("Submission error:", error.message);
+      alert(error.message || "Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -76,18 +135,28 @@ export function CreateNewRequest() {
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
-    const validFiles = files.filter(
-      (file) =>
-        (file.type === "image/jpeg" || file.type === "image/png") &&
-        file.size <= 2 * 1024 * 1024
-    );
+
+    const validFiles = files.filter((file) => {
+      if (file.size > 2 * 1024 * 1024) {
+        alert(`${file.name} exceeds the 2MB file size limit.`);
+        return false;
+      }
+
+      if (file.type !== "image/jpeg" && file.type !== "image/png") {
+        alert(`${file.name} is not a valid image type (JPEG or PNG).`);
+        return false;
+      }
+
+      return true;
+    });
 
     if (validFiles.length + imageFiles.length <= 5) {
       setImageFiles((prev) => [...prev, ...validFiles]);
     } else {
       alert("You can upload a maximum of 5 images.");
     }
-    event.target.value = ""; // Reset file input for better UX
+
+    event.target.value = "";
   };
 
   const getYoutubeVideoId = (url: string) => {

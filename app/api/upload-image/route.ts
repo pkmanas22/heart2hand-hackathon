@@ -8,6 +8,7 @@ export const POST = async (req: NextRequest) => {
         const id = uuidv4();
         const formData = await req.formData();
         const file = formData.get("file") as File;
+        const userId = formData.get("userId") as string;
 
         if (!file) {
             return NextResponse.json({ error: "File is required." }, { status: 400 });
@@ -26,7 +27,7 @@ export const POST = async (req: NextRequest) => {
         const extension = file.name.split(".").pop();
         const secureUrl: string | undefined = await uploadImageToCloudinary(
             buffer,
-            `${id}.${extension}`
+            `${userId}/${id}.${extension}`
         );
 
         return NextResponse.json({ secureUrl: secureUrl ?? "" }, { status: secureUrl ? 200 : 400 })

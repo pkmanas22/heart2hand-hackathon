@@ -13,12 +13,21 @@ import {
 import Link from "next/link";
 // import { IconBrandGoogle } from "@tabler/icons-react";
 import Header from "@/components/landing/Header";
-import {signIn} from "next-auth/react"
+import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function UserSignin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const { status } = useSession();
+
+  if (status === "authenticated") {
+    return router.push("/dashboard");
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,9 +52,9 @@ export default function UserSignin() {
       email,
       password,
       callbackUrl: "/dashboard",
-      redirect: true
+      redirect: true,
     });
-    
+
     if (res?.error) {
       alert("Invalid credentials");
       return;
