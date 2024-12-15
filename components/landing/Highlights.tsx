@@ -3,29 +3,29 @@ import { motion } from "framer-motion";
 import { AnimatedTestimonials } from "../ui/animated-testimonials";
 import { containerVariants, itemVariants } from "@/lib/framer";
 
-const stories = [
-  {
-    id: 1,
-    title: "Seema's child's surgery funded successfully",
-    description:
-      "Thanks to generous donors, Seema's child received life-changing surgery.",
-    image: "/bgHero.png",
-  },
-  {
-    id: 2,
-    title: "John's education dreams fulfilled",
-    description:
-      "John can now attend college thanks to the support of our community. John can now attend college thanks to the support of our community. John can now attend college thanks to the support of our community.",
-    image: "/bgHero.png",
-  },
-  {
-    id: 3,
-    title: "Maria's small business thrives",
-    description:
-      "With a microloan from donors, Maria's bakery is now flourishing.",
-    image: "/bgHero.png",
-  },
-];
+// const stories = [
+//   {
+//     id: 1,
+//     title: "Seema's child's surgery funded successfully",
+//     description:
+//       "Thanks to generous donors, Seema's child received life-changing surgery.",
+//     image: "/bgHero.png",
+//   },
+//   {
+//     id: 2,
+//     title: "John's education dreams fulfilled",
+//     description:
+//       "John can now attend college thanks to the support of our community. John can now attend college thanks to the support of our community. John can now attend college thanks to the support of our community.",
+//     image: "/bgHero.png",
+//   },
+//   {
+//     id: 3,
+//     title: "Maria's small business thrives",
+//     description:
+//       "With a microloan from donors, Maria's bakery is now flourishing.",
+//     image: "/bgHero.png",
+//   },
+// ];
 
 
 export default function Highlights() {

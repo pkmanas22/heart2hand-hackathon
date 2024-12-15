@@ -11,8 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
-import { IconBrandGoogle } from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
+// import { IconBrandGoogle } from "@tabler/icons-react";
 import Header from "@/components/landing/Header";
 import {signIn} from "next-auth/react"
 
@@ -20,7 +19,6 @@ export default function UserSignin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

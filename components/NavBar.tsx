@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
-import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 
 const navItemsData = [

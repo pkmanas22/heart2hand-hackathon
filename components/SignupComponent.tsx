@@ -63,7 +63,7 @@ export function SignupComponent({ role }: { role: string }) {
     // console.log("Form submitted");
   };
 
-  const handleGoogleLogin = () => {};
+  // const handleGoogleLogin = () => {};
 
   return (
     <Card className="mx-auto max-w-sm my-16">

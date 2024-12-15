@@ -1,6 +1,5 @@
 'use server'
 
-import { redirect } from 'next/navigation'
 import Stripe from 'stripe'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {

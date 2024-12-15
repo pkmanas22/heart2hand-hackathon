@@ -7,8 +7,6 @@ import { Header } from "@/components/header";
 import { AppSidebar } from "@/components/app-sidebar";
 import { ManageRequests } from "@/components/admin/ManageRequests";
 import { PlatformStatistics } from "@/components/admin/PlatformStatistics";
-import { useSession } from "next-auth/react";
-import { unauthorized, useRouter } from "next/navigation";
 
 export default function Dashboard() {
   const [activeView, setActiveView] = useState("stats");
@@ -17,10 +15,6 @@ export default function Dashboard() {
     { icon: BarChart, label: "Platform Statistics", value: "stats" },
     { icon: Users, label: "Manage Requests", value: "request" },
   ];
-
-  const { data: session } = useSession()
-  const router = useRouter();
-
 
   return (
     <SidebarProvider>

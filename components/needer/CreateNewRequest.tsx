@@ -48,17 +48,18 @@ export function CreateNewRequest() {
       story: "",
       amount: 0,
       category: "",
+      supportingDocuments: '' // change type , string for build
     },
     resolver: zodResolver(requestSchema),
     mode: "onBlur", // Provides instant feedback on blur
   });
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: unknown) => {
     setIsSubmitting(true);
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      // console.log(values, imageFiles, youtubeUrl);
+      console.log(values, imageFiles, youtubeUrl);
       alert(
         "Your request has been successfully submitted. Our team will review it shortly."
       );
@@ -211,7 +212,9 @@ export function CreateNewRequest() {
                   name="amount"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>How much do you want to raise (in INR)</FormLabel>
+                      <FormLabel>
+                        How much do you want to raise (in INR)
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -250,7 +253,7 @@ export function CreateNewRequest() {
                 <FormField
                   control={form.control}
                   name="supportingDocuments"
-                  render={({ field }) => (
+                  render={() => (
                     <FormItem>
                       <FormLabel>Supporting Documents</FormLabel>
                       <FormControl>
