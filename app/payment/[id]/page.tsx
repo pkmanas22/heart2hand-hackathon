@@ -1,12 +1,12 @@
 import { PaymentForm } from "@/components/payment/PaymentForm";
 import { getRequestDetails } from "@/lib/stripe/getRequestDetails";
 
-export default async function PaymentPage({
+export default function PaymentPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const { recipientName, requestTitle, amount } = await getRequestDetails(
+  const { recipientName, requestTitle, amount } = getRequestDetails(
     params.id
   );
 
