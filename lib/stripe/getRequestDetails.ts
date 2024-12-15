@@ -1,9 +1,8 @@
 // This is a mock function. In a real application, you'd fetch this data from your database.
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getRequestDetails = (id: string) => {
     // Simulate API call
-
+    console.log(`Fetching details for request with ID: ${id}`);
     return {
         recipientName: "Seema",
         requestTitle: "Help Seema's Child's Surgery",
