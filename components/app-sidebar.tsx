@@ -11,6 +11,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import Logo from "./Logo";
 
 interface SidebarItem {
   icon: LucideIcon;
@@ -31,8 +32,8 @@ export function AppSidebar({
 }: AppSidebarProps) {
   return (
     <Sidebar>
-      <SidebarHeader className="flex items-center justify-center py-4">
-        <h1 className="text-2xl font-bold text-primary my-4">Heart2Hand</h1>
+      <SidebarHeader className="flex items-center justify-center py-8 px-3">
+        <Logo href="#"/>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

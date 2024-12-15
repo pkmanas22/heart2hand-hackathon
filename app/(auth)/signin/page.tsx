@@ -13,10 +13,8 @@ import {
 import Link from "next/link";
 import { IconBrandGoogle } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { signInWithEmailAndPassword, UserCredential } from "firebase/auth";
-import { auth, userCollection } from "@/lib/firebase/config";
-import { doc, getDoc } from "firebase/firestore";
 import Header from "@/components/landing/Header";
+import {signIn} from "next-auth/react"
 
 export default function UserSignin() {
   const [email, setEmail] = useState("");
@@ -40,38 +38,26 @@ export default function UserSignin() {
       return;
     }
 
-    try {
-      const userCredential: UserCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+    setEmail("");
+    setPassword("");
 
-      const user = userCredential.user;
-
-      if (!user.uid) {
-        alert("Something went wrong");
-        return;
-      }
-      const userDoc = await getDoc(doc(userCollection, user.uid));
-
-      if (!userDoc.exists()) {
-        alert("You don't have an active account. Kindly create one");
-        return;
-      }
-
-      const role = userDoc.data().role;
-      router.push(`/${role}`);
-    } catch (error) {
-      console.error("Error during signup:", error);
-      alert(error.message);
-    } finally {
-      setLoading(false);
+    const res = await signIn("credentials", {
+      email,
+      password,
+      callbackUrl: "/dashboard",
+      redirect: true
+    });
+    
+    if (res?.error) {
+      alert("Invalid credentials");
+      return;
     }
-    console.log("Form submitted");
+
+    setLoading(false);
+    // console.log("Form submitted");
   };
 
-  const handleGoogleLogin = () => {};
+  // const handleGoogleLogin = () => {};
 
   return (
     <>

@@ -1,7 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { getAnalytics, isSupported } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
 import { collection, getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
@@ -41,6 +40,5 @@ if (typeof window !== "undefined") {
 export { analytics };
     
 export default firebaseApp;
-export const auth = getAuth(firebaseApp);
 export const db = getFirestore(firebaseApp);
 export const userCollection = collection(db, "users");

@@ -15,7 +15,7 @@ export default async function SuccessPage({
   }
 
     const { session, amount } = await getSessionDetails(sessionId);
-    console.log(session?.metadata?.requestId);
+    // console.log(session?.metadata?.requestId);
   return (
     <SuccessCard amount={amount} requestId={session?.metadata?.requestId} />
   );

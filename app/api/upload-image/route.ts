@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export const POST = async (req: NextRequest) => {
     try {
-        console.log(req);
+        // console.log(req);
         const id = uuidv4();
         const formData = await req.formData();
         const file = formData.get("file") as File;

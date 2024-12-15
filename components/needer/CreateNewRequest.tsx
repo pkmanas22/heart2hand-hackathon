@@ -58,7 +58,7 @@ export function CreateNewRequest() {
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log(values, imageFiles, youtubeUrl);
+      // console.log(values, imageFiles, youtubeUrl);
       alert(
         "Your request has been successfully submitted. Our team will review it shortly."
       );

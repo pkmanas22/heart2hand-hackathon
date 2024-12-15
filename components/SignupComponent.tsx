@@ -11,11 +11,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
-import { IconBrandGoogle } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
-import { auth, userCollection } from "@/lib/firebase/config";
-import { doc, setDoc } from "firebase/firestore";
+import Image from "next/image"
 
 export function SignupComponent({ role }: { role: string }) {
   const [name, setName] = useState("");
@@ -41,42 +38,43 @@ export function SignupComponent({ role }: { role: string }) {
     }
 
     try {
-      const userCredential: UserCredential =
-        await createUserWithEmailAndPassword(auth, email, password);
-
-      const user = userCredential.user;
-
-      if (!user.uid) {
-        alert("Something went wrong");
-        return;
-      }
-
-      await setDoc(doc(userCollection, user.uid), {
-        name,
-        email,
-        role,
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password, role }),
       });
 
-      router.push(`/${role}`);
+      const data = await res.json();
+
+      setLoading(false);
+
+      if (res.ok) {
+        alert("Signup successful! You can now log in.");
+        router.push("/signin");
+      } else {
+        alert(data.error || "Something went wrong");
+      }
     } catch (error) {
       console.error("Error during signup:", error);
       alert(error.message);
-    } finally {
       setLoading(false);
     }
-    console.log("Form submitted");
+
+    // console.log("Form submitted");
   };
 
   const handleGoogleLogin = () => {};
 
   return (
     <Card className="mx-auto max-w-sm my-16">
-      <CardHeader>
-        <CardTitle className="text-2xl text-center font-bold">
+      <CardHeader className="flex flex-col items-center text-center">
+        <Image src="/logo.png" alt="Heart2Hand" width={60} height={60} />
+        <CardTitle className="text-3xl font-bold">
           Create an account
         </CardTitle>
-        <CardDescription className="text-center">
-          Create a new account as {role}
+        <CardDescription>
+          Welcome to Heart2Hand!{" "}
+          {role === "needer" ?"Please sign up to create a request." : "Please sign up to donate to a request."}
         </CardDescription>
       </CardHeader>
       <CardContent>

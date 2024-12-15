@@ -44,7 +44,7 @@ export async function createCheckoutSession({
                 requestId,
             },
         })
-        console.log(session)
+        // console.log(session)
 
         if (!session.url) {
             throw new Error('Failed to create checkout session')
