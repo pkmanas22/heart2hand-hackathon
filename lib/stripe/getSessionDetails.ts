@@ -6,9 +6,8 @@ export const getSessionDetails = async (sessionId: string) => {
         apiVersion: "2024-11-20.acacia",
     });
 
-
     const session: Stripe.Response<Stripe.Checkout.Session> = await stripe.checkout.sessions.retrieve(sessionId);
-    const amount = session.amount_total ? session.amount_total / 100 : 0;
+    const amount = session.amount_total || 0;
 
     return {session, amount}
 }

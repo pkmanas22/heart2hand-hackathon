@@ -38,14 +38,14 @@ export function RequestDetailsModal({
   request: RequestDetails;
   onClose: () => void;
 }) {
-  if (!request) return null;
-
   const [confirmationDialog, setConfirmationDialog] = useState({
     open: false,
     action: "",
   });
   const [title, setTitle] = useState("");
   const [remark, setRemark] = useState("");
+
+  if (!request) return null;
 
   const handleUpdate = async (status: string) => {
     try {
@@ -56,8 +56,8 @@ export function RequestDetailsModal({
       });
       alert("Updated successfully");
     } catch (error) {
-      console.log(error);
-      alert("Error while updating");
+      // console.log(error);
+      alert("Error while updating", error.message);
     } finally {
       setConfirmationDialog({ open: false, action: "" });
       setTitle("");
@@ -65,8 +65,6 @@ export function RequestDetailsModal({
       window.location.reload();
     }
   };
-
-  const youtubeVideoId = request.youtubeUrl.split("v=")[1]?.split("&")[0];
 
   return (
     <>
@@ -184,7 +182,7 @@ export function RequestDetailsModal({
                   <iframe
                     width="70%"
                     height="100%"
-                    src={`https://www.youtube.com/embed/${youtubeVideoId}`}
+                    src={`https://www.youtube.com/embed/${request.youtubeVideoId}`}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     className="rounded-lg"

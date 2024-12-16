@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -17,36 +17,39 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-
-const mockRequests = [
-  {
-    id: 1,
-    title: "Medical Treatment for Sarah",
-    neederName: "Sarah Johnson",
-    category: "Medical",
-    requestedAmount: 5000,
-    urgencyLevel: "High",
-  },
-  {
-    id: 2,
-    title: "School Supplies for Underprivileged Children",
-    neederName: "Education for All Foundation",
-    category: "Education",
-    requestedAmount: 2000,
-    urgencyLevel: "Medium",
-  },
-  // Add more mock requests here
-];
+import { RequestDetails } from "../admin/ManageRequests";
+import { getDocs, query, where } from "firebase/firestore";
+import { requestCollection } from "@/lib/firebase/config";
+import Link from "next/link";
 
 export default function VerifiedRequest() {
-  const [category, setCategory] = useState("All");
-  const [urgency, setUrgency] = useState("All");
+  const [category, setCategory] = useState("all");
+  const [requests, setRequests] = useState<RequestDetails[]>([]);
 
-  const filteredRequests = mockRequests.filter(
-    (request) =>
-      (category === "All" || request.category === category) &&
-      (urgency === "All" || request.urgencyLevel === urgency)
+  const filteredRequests = requests.filter(
+    (request) => category === "all" || request.category === category
   );
+
+  useEffect(() => {
+    async function fetchData() {
+      const q = query(requestCollection, where("status", "==", "verified"));
+
+      const requestDoc = await getDocs(q);
+      const result = requestDoc.docs.map((doc) => {
+        const data = doc.data();
+
+        const filteredData = {
+          id: doc.id,
+          ...data,
+        };
+        return filteredData;
+      });
+      setRequests(result);
+    }
+    fetchData();
+  }, []);
+
+  // console.log(requests);
 
   return (
     <div className="space-y-4">
@@ -56,21 +59,10 @@ export default function VerifiedRequest() {
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="All">All Categories</SelectItem>
-            <SelectItem value="Medical">Medical</SelectItem>
-            <SelectItem value="Education">Education</SelectItem>
-            {/* Add more categories */}
-          </SelectContent>
-        </Select>
-        <Select value={urgency} onValueChange={setUrgency}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select urgency" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="All">All Urgencies</SelectItem>
-            <SelectItem value="Low">Low</SelectItem>
-            <SelectItem value="Medium">Medium</SelectItem>
-            <SelectItem value="High">High</SelectItem>
+            <SelectItem value="all">All Categories</SelectItem>
+            <SelectItem value="medical">Medical</SelectItem>
+            <SelectItem value="education">Education</SelectItem>
+            <SelectItem value="housing">Housing</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -80,24 +72,23 @@ export default function VerifiedRequest() {
             <CardHeader>
               <CardTitle>{request.title}</CardTitle>
             </CardHeader>
-            <CardContent>
-              <p>Needer: {request.neederName}</p>
-              <p>Category: {request.category}</p>
-              <p>Requested Amount: ${request.requestedAmount}</p>
-              <Badge
-                variant={
-                  request.urgencyLevel === "High"
-                    ? "destructive"
-                    : request.urgencyLevel === "Medium"
-                    ? "default"
-                    : "secondary"
-                }
-              >
-                {request.urgencyLevel} Urgency
-              </Badge>
+            <CardContent className="space-y-2">
+              <p>Needer: {request.name}</p>
+              <p>Requested Amount: INR {request.amount}</p>
+              <p>Amount Collected: INR {request.amountCollected}</p>
+              <Badge variant="outline">{request.category.toUpperCase()}</Badge>
             </CardContent>
-            <CardFooter>
-              <Button>Donate Now</Button>
+            <CardFooter className="flex justify-evenly">
+              <Button>
+                <Link href={`/payment/${request.id}`}>
+                  Donate Now
+                </Link>
+              </Button>
+              <Button className="bg-blue-700 hover:bg-blue-500 text-white">
+                <Link href={`/request/${request.id}`} target="_blank">
+                  View Story
+                </Link>
+              </Button>
             </CardFooter>
           </Card>
         ))}

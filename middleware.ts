@@ -12,6 +12,7 @@ const protectedRoutes = [
 export const config = {
     matcher: [
         "/dashboard/:path*", // Protect all dashboard routes
+        "/payment/:path*"
     ],
 };
 

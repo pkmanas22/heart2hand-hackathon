@@ -13,7 +13,7 @@ export default function page() {
     }
 
     if (session.status === "authenticated") {
-        console.log(session)
+        // console.log(session)
 
         if (session.data.user.role === "needer") {
             router.push('/dashboard/needer');

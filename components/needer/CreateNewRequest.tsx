@@ -58,7 +58,7 @@ const uploadImagesToCloudinary = async (files: File[], userId: string) => {
       if (result.secureUrl) {
         uploadedUrls.push(result.secureUrl);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error(`Failed to upload ${file.name}:`, error.message);
       alert(`Failed to upload ${file.name}: ${error.message}`);
     }
@@ -89,7 +89,7 @@ export function CreateNewRequest() {
     mode: "onBlur",
   });
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values) => {
     setIsSubmitting(true);
 
     try {
@@ -101,7 +101,7 @@ export function CreateNewRequest() {
       const formBody = {
         ...values,
         supportingDocuments: imgUrls,
-        youtubeUrl,
+        youtubeVideoId: getYoutubeVideoId(youtubeUrl),
         userId: session?.user?.id || "",
       };
 
@@ -125,7 +125,7 @@ export function CreateNewRequest() {
       form.reset();
       setImageFiles([]);
       setYoutubeUrl("");
-    } catch (error: any) {
+    } catch (error) {
       console.error("Submission error:", error.message);
       alert(error.message || "Something went wrong. Please try again.");
     } finally {
@@ -268,8 +268,6 @@ export function CreateNewRequest() {
                           <SelectItem value="medical">Medical</SelectItem>
                           <SelectItem value="education">Education</SelectItem>
                           <SelectItem value="housing">Housing</SelectItem>
-                          <SelectItem value="food">Food</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />

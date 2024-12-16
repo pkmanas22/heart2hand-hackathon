@@ -32,10 +32,11 @@ import { requestCollection } from "@/lib/firebase/config";
 
 export interface RequestDetails {
   id: string;
-  youtubeUrl: string;
+  youtubeVideoId: string;
   story: string;
   name: string;
   amount: number;
+  amountCollected: number;
   userId: string;
   address: string;
   status: string;
@@ -44,6 +45,8 @@ export interface RequestDetails {
   age: number;
   category: string;
   phone: string;
+  title: string;
+  remark: string;
 }
 
 export function ManageRequests() {

@@ -1,5 +1,5 @@
-import { getAllRequest, getRequestById } from "@/lib/firebase/utils";
-import { NextRequest, NextResponse } from "next/server";
+import { getAllRequest } from "@/lib/firebase/utils";
+import { NextResponse } from "next/server";
 
 export const GET = async () => {
     try {
@@ -8,7 +8,7 @@ export const GET = async () => {
         if (!success) {
             return NextResponse.json({ error: message }, { status: 400 });
         }
-        console.log(message)
+        // console.log(message)
         return NextResponse.json({ data: message });
     } catch (error) {
         console.error("Unexpected error in GET handler:", error);

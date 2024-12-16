@@ -1,9 +1,10 @@
+"use client";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Card,
   CardContent,
@@ -12,60 +13,73 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Timeline,
-  TimelineItem,
-  TimelineItemContent,
-  TimelineItemIndicator,
-} from "@/components/ui/timeline";
 import { Facebook, Twitter, Share2 } from "lucide-react";
+import { doc, getDoc } from "firebase/firestore";
+import { requestCollection } from "@/lib/firebase/config";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { RequestDetails } from "./admin/ManageRequests";
+import {
+  Carousel,
+  CarouselPrevious,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+} from "./ui/carousel";
+import Link from "next/link";
 
-type Update = {
-  type: "created" | "verified" | "donation" | "gratitude";
-  date: string;
-  content: string;
-};
+export default function RequestDetail({ id }: { id: string }) {
+  const [request, setRequest] = useState<RequestDetails>();
+  const router = useRouter();
 
-type RequestDataProps = {
-  id: string;
-  title: string;
-  requesterName: string;
-  category: string;
-  dateCreated: string;
-  status: "Verified" | "Pending" | "Rejected";
-  amountNeeded: number;
-  amountAchieved: number;
-  story: string;
-  updates: Update[];
-  supportingDocuments: string[];
-  gratitudeVideo?: string; // Optional because not all requests may have a gratitude video
-};
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const requestDoc = await getDoc(doc(requestCollection, id));
+  
+        if (!requestDoc.exists) {
+          alert("Invalid id! No data found");
+          router.push("/dashboard");
+        }
 
-export default function RequestDetail({ requestData }:{requestData: RequestDataProps}) {
-  const percentageAchieved =
-    (requestData.amountAchieved / requestData.amountNeeded) * 100;
+        const data = requestDoc.data()
+        // console.log("data", requestDoc)
+
+        const filteredData = {
+          id: requestDoc.id,
+          ...data
+        };
+        // console.log(filteredData)
+        setRequest(filteredData);
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchData();
+  }, [id, router]);
+
+  if (!request) {
+    return <div>Loading</div>;
+  }
+
+  // console.log(request)
+  const percentageAchieved = (request.amountCollected / request.amount) * 100;
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2">
-          <h1 className="text-3xl font-bold mb-4">{requestData.title}</h1>
+          <h1 className="text-3xl font-bold mb-4">{request.title}</h1>
           <div className="flex items-center mb-4">
             <Avatar className="h-10 w-10 mr-2">
-              <AvatarImage
-                src="/placeholder.svg?height=40&width=40"
-                alt={requestData.requesterName}
-              />
-              <AvatarFallback>{requestData.requesterName[0]}</AvatarFallback>
+              <AvatarFallback>{request.name.charAt(0).toUpperCase() || ""}</AvatarFallback>
             </Avatar>
-            <span className="text-lg">{requestData.requesterName}</span>
+            <span className="text-lg">{request.name}</span>
           </div>
           <div className="flex flex-wrap gap-2 mb-4">
-            <Badge variant="secondary">{requestData.category}</Badge>
-            <Badge variant="outline">
-              Created on {requestData.dateCreated}
-            </Badge>
-            <Badge variant="default">{requestData.status}</Badge>
+            <Badge variant="secondary">{request.category}</Badge>
+            <Badge variant="outline">Created on {request.createdAt}</Badge>
+            <Badge variant="default">{request.status}</Badge>
           </div>
           <Card className="mb-8">
             <CardHeader>
@@ -74,10 +88,9 @@ export default function RequestDetail({ requestData }:{requestData: RequestDataP
             <CardContent>
               <Progress value={percentageAchieved} className="mb-2" />
               <div className="flex justify-between text-sm text-muted-foreground">
-                <span>${requestData.amountAchieved} raised</span>
+                <span>INR {request.amountCollected} raised</span>
                 <span>
-                  {percentageAchieved.toFixed(0)}% of INR{" "}
-                  {requestData.amountNeeded}
+                  {percentageAchieved.toFixed(0)}% of INR {request.amount}
                 </span>
               </div>
             </CardContent>
@@ -95,14 +108,44 @@ export default function RequestDetail({ requestData }:{requestData: RequestDataP
                   <CardTitle>Full Story</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="break-words">{requestData.story}</p>
-                  <Image
-                    src="/globe.svg"
-                    alt="Story Image"
-                    width={500}
-                    height={300}
-                    className="mt-4 rounded-lg object-contain"
-                  />
+                  <p className="break-words">{request.story}</p>
+                  <div>
+                    <h2 className="font-semibold mb-2">Supporting Documents</h2>
+                    <div className="m-auto ml-12">
+                      <Carousel className="max-w-xs">
+                        <CarouselPrevious />
+                        <CarouselContent>
+                          {request.supportingDocuments.map((doc, index) => (
+                            <CarouselItem key={index}>
+                              <div className="p-1">
+                                <Image
+                                  src={doc}
+                                  alt={`Supporting document ${index + 1}`}
+                                  width={300}
+                                  height={200}
+                                  className="rounded-lg object-cover w-full h-48"
+                                />
+                              </div>
+                            </CarouselItem>
+                          ))}
+                        </CarouselContent>
+                        <CarouselNext />
+                      </Carousel>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-2">Video Submission</h3>
+                    <div className="aspect-video">
+                      <iframe
+                        width="70%"
+                        height="100%"
+                        src={`https://www.youtube.com/embed/${request.youtubeVideoId}`}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="rounded-lg"
+                      />
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -111,9 +154,9 @@ export default function RequestDetail({ requestData }:{requestData: RequestDataP
                 <CardHeader>
                   <CardTitle>Request Timeline</CardTitle>
                 </CardHeader>
-                <CardContent>
+                {/* <CardContent>
                   <Timeline>
-                    {requestData.updates.map((update, index) => (
+                    {request.updates.map((update, index) => (
                       <TimelineItem key={index}>
                         <TimelineItemIndicator />
                         <TimelineItemContent>
@@ -125,7 +168,7 @@ export default function RequestDetail({ requestData }:{requestData: RequestDataP
                       </TimelineItem>
                     ))}
                   </Timeline>
-                </CardContent>
+                </CardContent> */}
               </Card>
             </TabsContent>
             <TabsContent value="gratitude">
@@ -133,19 +176,19 @@ export default function RequestDetail({ requestData }:{requestData: RequestDataP
                 <CardHeader>
                   <CardTitle>Thank You Message</CardTitle>
                 </CardHeader>
-                <CardContent>
+                {/* <CardContent>
                   <div className="aspect-video">
                     <iframe
                       width="100%"
                       height="100%"
-                      src={requestData.gratitudeVideo}
+                      src={requests.gratitudeVideo}
                       title="Thank You Video"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                     ></iframe>
                   </div>
-                </CardContent>
+                </CardContent> */}
               </Card>
             </TabsContent>
           </Tabs>
@@ -159,7 +202,7 @@ export default function RequestDetail({ requestData }:{requestData: RequestDataP
             </CardHeader>
             <CardContent>
               <Button className="w-full mb-4" size="lg">
-                Donate Now
+                <Link href={`/payment/${request.id}`}>Donate Now</Link>
               </Button>
               <div className="flex justify-center space-x-4">
                 <Button variant="outline" size="icon">
