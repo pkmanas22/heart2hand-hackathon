@@ -183,7 +183,7 @@ export default function DummyPayment({ requestId }: { requestId: string }) {
           <DialogHeader>
             <DialogTitle>Payment Successful</DialogTitle>
             <DialogDescription>
-              Your payment of ${amount} has been processed successfully.
+              Your payment of INR {amount / 100} has been processed successfully.
             </DialogDescription>
           </DialogHeader>
           <Button onClick={handleConfirm}>Go to Request</Button>
