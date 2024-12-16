@@ -35,6 +35,17 @@ import { requestSchema } from "@/lib/zod";
 import { useSession } from "next-auth/react";
 import { Label } from "../ui/label";
 
+type FormData = {
+  name: string;
+  age: number;
+  address: string;
+  phone: string;
+  story: string;
+  amount: number;
+  category: string;
+  supporting: string;
+};
+
 const uploadImagesToCloudinary = async (files: File[], userId: string) => {
   const uploadedUrls: string[] = [];
 
@@ -59,8 +70,8 @@ const uploadImagesToCloudinary = async (files: File[], userId: string) => {
         uploadedUrls.push(result.secureUrl);
       }
     } catch (error) {
-      console.error(`Failed to upload ${file.name}:`, error.message);
-      alert(`Failed to upload ${file.name}: ${error.message}`);
+      console.error(`Failed to upload ${file.name}:`, (error as Error).message);
+      alert(`Failed to upload ${file.name}: ${(error as Error).message}`);
     }
   }
 
@@ -74,7 +85,7 @@ export function CreateNewRequest() {
 
   const { data: session } = useSession();
 
-  const form = useForm({
+  const form = useForm<FormData>({
     defaultValues: {
       name: "",
       age: 0,
@@ -83,13 +94,13 @@ export function CreateNewRequest() {
       story: "",
       amount: 0,
       category: "",
-      supportingDocuments: "",
+      supporting: "",
     },
     resolver: zodResolver(requestSchema),
     mode: "onBlur",
   });
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: FormData) => {
     setIsSubmitting(true);
 
     try {
@@ -126,8 +137,10 @@ export function CreateNewRequest() {
       setImageFiles([]);
       setYoutubeUrl("");
     } catch (error) {
-      console.error("Submission error:", error.message);
-      alert(error.message || "Something went wrong. Please try again.");
+      console.error("Submission error:", (error as Error).message);
+      alert(
+        (error as Error).message || "Something went wrong. Please try again."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -319,7 +332,7 @@ export function CreateNewRequest() {
               <div className="space-y-4">
                 <FormField
                   control={form.control}
-                  name="supportingDocuments"
+                  name="supporting"
                   render={() => (
                     <FormItem>
                       <FormLabel>Supporting Documents</FormLabel>

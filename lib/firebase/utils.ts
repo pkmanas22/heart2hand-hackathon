@@ -44,7 +44,8 @@ export const createNewUser = async (name: string, email: string, hashedPassword:
 }
 
 // create new request
-export const createNewRequest = async (data) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const createNewRequest = async (data: any) => {
     try {
         const newRequest = await addDoc(requestCollection, {
             ...data,

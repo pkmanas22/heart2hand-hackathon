@@ -56,7 +56,7 @@ export function SignupComponent({ role }: { role: string }) {
       }
     } catch (error) {
       console.error("Error during signup:", error);
-      alert(error.message);
+      alert((error as Error).message);
       setLoading(false);
     }
 

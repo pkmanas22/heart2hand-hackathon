@@ -1,7 +1,7 @@
 import { fetchUserDetails } from '@/lib/firebase/utils';
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
-import NextAuth, { Session } from "next-auth"
+import NextAuth from "next-auth"
 import { JWT } from 'next-auth/jwt';
 import { AdapterUser } from 'next-auth/adapters';
 
@@ -15,15 +15,26 @@ interface user extends AdapterUser {
     id: string;
 }
 
-export interface session extends Session {
-    user?: {
-        id: string;
-        role: string
-        name?: string | null
-        email?: string | null
-        image?: string | null
+// export interface session extends Session {
+//     user?: {
+//         id: string;
+//         role: string
+//         name?: string | null
+//         email?: string | null
+//         image?: string | null
+//     }
+// };
+
+import type { DefaultSession } from 'next-auth';
+
+declare module 'next-auth' {
+    interface Session {
+        user: DefaultSession['user'] & {
+            id: string;
+            role: string;
+        };
     }
-};
+}
 
 const handler = NextAuth({
     providers: [
@@ -98,12 +109,12 @@ const handler = NextAuth({
             return token;
         },
         session: async ({ session, token }) => {
-            const newSession: session = session as session;
+            const newSession = session;
             if (newSession.user && token.id) {
                 newSession.user.id = token.id as string;
                 newSession.user.role = token.role as string;
             } else {
-                console.error("session error occured")
+                console.error("session error occurred")
             }
             return newSession;
         },

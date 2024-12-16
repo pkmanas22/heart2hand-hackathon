@@ -55,9 +55,10 @@ export function RequestDetailsModal({
         remark,
       });
       alert("Updated successfully");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       // console.log(error);
-      alert("Error while updating", error.message);
+      alert("Error while updating");
     } finally {
       setConfirmationDialog({ open: false, action: "" });
       setTitle("");

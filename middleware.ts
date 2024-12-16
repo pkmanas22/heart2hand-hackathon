@@ -32,7 +32,7 @@ export default async function middleware(request: NextRequest) {
     // If user is logged in
     if (token) {
         const validRoles = ["admin", "helper", "needer"];
-        const userRole = token.role;
+        const userRole = token.role as string;
 
         // Check for valid role
         if (!validRoles.includes(userRole)) {
