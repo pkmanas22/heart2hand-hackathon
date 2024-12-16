@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image"
+import { useSession } from "next-auth/react";
 
 export function SignupComponent({ role }: { role: string }) {
   const [name, setName] = useState("");
@@ -20,6 +21,12 @@ export function SignupComponent({ role }: { role: string }) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  
+  const { status } = useSession();
+
+  if (status === "authenticated") {
+    return router.push("/dashboard");
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

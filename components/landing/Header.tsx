@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { ArrowRight } from "lucide-react";
 
 export default function Header() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   return (
     <header className="bg-white/[0.2] shadow-md bg-gray-700 bg-opacity-40">
@@ -28,7 +28,7 @@ export default function Header() {
             </button>
           </div>
           <div className="flex space-x-2">
-            {session?.user.id ? (
+            {status !== "loading" && session?.user.id ? (
               <>
                 <Button asChild>
                   <Link href="/signup/helper">Donate Now</Link>
