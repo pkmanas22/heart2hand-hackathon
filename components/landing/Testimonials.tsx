@@ -17,7 +17,7 @@ export function Testimonials() {
         >
           <motion.div variants={itemVariants}>
             <motion.span
-              className="inline-block px-4 py-1.5 rounded-full bg-orange-100 text-orange-500 font-medium text-sm mb-4"
+              className="inline-block px-4 py-1.5 rounded-full bg-orange-100 text-orange-600 font-medium text-sm mb-4"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -37,7 +37,7 @@ export function Testimonials() {
             Users Saying
           </motion.h3>
         </motion.div>
-        <div className="h-full rounded-md flex flex-col antialiased bg-white items-center justify-center relative overflow-hidden">
+        <div className="h-full rounded-md flex flex-col antialiased bg-white text-orange-600 items-center justify-center relative overflow-hidden">
           <InfiniteMovingCards
             items={testimonials}
             direction="right"

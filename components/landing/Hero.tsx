@@ -25,7 +25,7 @@ export default function Hero() {
             initial={{ y: 0, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-4xl md:text-6xl font-extrabold text-gray-800 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent inline"
+            className="text-4xl md:text-6xl font-extrabold text-orange-700 inline"
           >
             Bridge Generosity with Need
           </motion.h1>
