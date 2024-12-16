@@ -35,27 +35,27 @@ export default function Highlights() {
         "Your solution is a game-changer; it's streamlined our entire process!",
       name: "M K Pradhan",
       designation: "",
-      src: "/bgHero.png",
+      src: "/children.jpg",
     },
     {
       quote:
         "This is exactly what we needed to overcome our challenges—simple yet effective.",
       name: "U Sahoo",
       designation: "",
-      src: "/bgHero.png",
+      src: "/hand.jpg",
     },
     {
       quote: "The level of support and precision you provide is unparalleled.",
       name: "A Nayak",
       designation: "",
-      src: "/bgHero.png",
+      src: "/children.jpg",
     },
     {
       quote:
         "You've turned our vision into reality with innovative and practical solutions.",
       name: "M Rout",
       designation: "",
-      src: "/bgHero.png",
+      src: "/hand.jpg",
     },
   ];
 

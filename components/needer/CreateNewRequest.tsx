@@ -102,7 +102,7 @@ export function CreateNewRequest() {
 
   const onSubmit = async (values: FormData) => {
     setIsSubmitting(true);
-
+    console.log(values)
     try {
       const imgUrls = await uploadImagesToCloudinary(
         imageFiles,

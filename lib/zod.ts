@@ -5,7 +5,7 @@ export const requestSchema = z.object({
     age: z.number().min(1, "Age must be greater than 0."),
     address: z.string().min(5, "Address must be at least 5 characters."),
     phone: z.string().regex(/^\d{10}$/, "Phone number must be 10 digits."),
-    story: z.string().min(100, "Story must be at least 100 words."),
+    story: z.string().min(10, "Story must be at least 10 words."),
     amount: z.number().min(1, "Amount must be greater than 0."),
     category: z.string().nonempty("Category is required."),
 });

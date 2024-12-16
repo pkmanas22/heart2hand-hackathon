@@ -50,7 +50,8 @@ export const createNewRequest = async (data: any) => {
         const newRequest = await addDoc(requestCollection, {
             ...data,
             createdAt: new Date().toISOString(),
-            status: "pending"
+            status: "pending",
+            amountCollected: 0,
         });
 
         if (!newRequest) {

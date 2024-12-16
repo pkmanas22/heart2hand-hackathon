@@ -12,7 +12,7 @@ const mockStories = [
     title: "Sarah's Recovery Journey",
     summary:
       "Thanks to your donations, Sarah received the medical treatment she needed and is now on the path to recovery.",
-    image: "/next.svg",
+    image: "/children.jpg",
   },
   {
     id: 2,

@@ -2,10 +2,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function DashboardOverview() {
   const stats = [
-    { title: "Total Requests Created", value: 42 },
-    { title: "Verified Requests", value: 28 },
-    { title: "Pending Requests", value: 10 },
-    { title: "Rejected Requests", value: 4 },
+    { title: "Total Requests Created", value: 0 },
+    { title: "Verified Requests", value: 0 },
+    { title: "Pending Requests", value: 0 },
+    { title: "Rejected Requests", value: 0 },
   ];
 
   return (

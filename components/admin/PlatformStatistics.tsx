@@ -4,11 +4,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Bar, BarChart, Line, LineChart, Pie, PieChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 
 const donationData = [
-  { month: 'Jan', amount: 5000 },
-  { month: 'Feb', amount: 7000 },
-  { month: 'Mar', amount: 6000 },
-  { month: 'Apr', amount: 8000 },
-  { month: 'May', amount: 9000 },
+  { month: 'Jul', amount: 5000 },
+  { month: 'Aug', amount: 7000 },
+  { month: 'Sep', amount: 6000 },
+  { month: 'Oct', amount: 8000 },
+  { month: 'Nov', amount: 9000 },
 ]
 
 const requestData = [
@@ -19,11 +19,11 @@ const requestData = [
 ]
 
 const userData = [
-  { month: 'Jan', donors: 100, needers: 50 },
-  { month: 'Feb', donors: 120, needers: 60 },
-  { month: 'Mar', donors: 140, needers: 70 },
-  { month: 'Apr', donors: 160, needers: 80 },
-  { month: 'May', donors: 180, needers: 90 },
+  { month: 'Jul', donors: 100, needers: 50 },
+  { month: 'Aug', donors: 120, needers: 60 },
+  { month: 'Sep', donors: 140, needers: 70 },
+  { month: 'Oct', donors: 160, needers: 80 },
+  { month: 'Nov', donors: 180, needers: 90 },
 ]
 
 export function PlatformStatistics() {
