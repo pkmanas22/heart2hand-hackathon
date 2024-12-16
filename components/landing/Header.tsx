@@ -28,7 +28,7 @@ export default function Header() {
             </button>
           </div>
           <div className="flex space-x-2">
-            {status !== "loading" && session?.user.id ? (
+            {status !== "loading" && (!session?.user.id ? (
               <>
                 <Button asChild>
                   <Link href="/signup/helper">Donate Now</Link>
@@ -47,7 +47,7 @@ export default function Header() {
                   <ArrowRight />
                 </Link>
               </Button>
-            )}
+            ))}
           </div>
         </div>
       </nav>
