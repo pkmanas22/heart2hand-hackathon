@@ -92,7 +92,9 @@ export default function RequestDetail({ id }: { id: string }) {
           <h1 className="text-3xl font-bold mb-4">{request.title}</h1>
           <div className="flex items-center mb-4">
             <Avatar className="h-10 w-10 mr-2">
-              <AvatarFallback>{request.name.charAt(0).toUpperCase() || ""}</AvatarFallback>
+              <AvatarFallback>
+                {request.name.charAt(0).toUpperCase() || ""}
+              </AvatarFallback>
             </Avatar>
             <span className="text-lg">{request.name}</span>
           </div>
@@ -196,19 +198,19 @@ export default function RequestDetail({ id }: { id: string }) {
                 <CardHeader>
                   <CardTitle>Thank You Message</CardTitle>
                 </CardHeader>
-                {/* <CardContent>
+                <CardContent>
                   <div className="aspect-video">
                     <iframe
                       width="100%"
                       height="100%"
-                      src={requests.gratitudeVideo}
+                      src="https://www.youtube.com/embed/Xaj4ZsKMD4g"
                       title="Thank You Video"
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                     ></iframe>
                   </div>
-                </CardContent> */}
+                </CardContent>
               </Card>
             </TabsContent>
           </Tabs>

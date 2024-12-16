@@ -32,44 +32,29 @@ export default function Highlights() {
   const testimonials = [
     {
       quote:
-        "The attention to detail and innovative features have completely transformed our workflow. This is exactly what we've been looking for.",
-      name: "Sarah Chen",
-      designation: "Product Manager at TechFlow",
+        "Your solution is a game-changer; it's streamlined our entire process!",
+      name: "M K Pradhan",
+      designation: "",
       src: "/bgHero.png",
     },
     {
       quote:
-        "The attention to detail and innovative features have completely transformed our workflow. This is exactly what we've been looking for.",
-      name: "Sarah Chen",
-      designation: "Product Manager at TechFlow",
+        "This is exactly what we needed to overcome our challenges—simple yet effective.",
+      name: "U Sahoo",
+      designation: "",
+      src: "/bgHero.png",
+    },
+    {
+      quote: "The level of support and precision you provide is unparalleled.",
+      name: "A Nayak",
+      designation: "",
       src: "/bgHero.png",
     },
     {
       quote:
-        "The attention to detail and innovative features have completely transformed our workflow. This is exactly what we've been looking for.",
-      name: "Sarah Chen",
-      designation: "Product Manager at TechFlow",
-      src: "/bgHero.png",
-    },
-    {
-      quote:
-        "The attention to detail and innovative features have completely transformed our workflow. This is exactly what we've been looking for.",
-      name: "Sarah Chen",
-      designation: "Product Manager at TechFlow",
-      src: "/bgHero.png",
-    },
-    {
-      quote:
-        "The attention to detail and innovative features have completely transformed our workflow. This is exactly what we've been looking for.",
-      name: "Sarah Chen",
-      designation: "Product Manager at TechFlow",
-      src: "/bgHero.png",
-    },
-    {
-      quote:
-        "The attention to detail and innovative features have completely transformed our workflow. This is exactly what we've been looking for.",
-      name: "Sarah Chen",
-      designation: "Product Manager at TechFlow",
+        "You've turned our vision into reality with innovative and practical solutions.",
+      name: "M Rout",
+      designation: "",
       src: "/bgHero.png",
     },
   ];

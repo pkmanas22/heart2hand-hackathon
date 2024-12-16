@@ -8,21 +8,18 @@ import { Button } from "@/components/ui/button";
 const services = [
   {
     icon: Notebook,
-    title: "Child Education",
-    description:
-      "Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed vero dolor duo.",
+    title: "Education",
+    description: "Learning shapes the future, one step at a time.",
   },
   {
     icon: Hospital,
     title: "Medical Treatment",
-    description:
-      "Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed vero dolor duo.",
+    description: "Compassion and care are the heart of healing.",
   },
   {
     icon: House,
     title: "Home Support",
-    description:
-      "Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed vero dolor duo.",
+    description: "A strong home is built on love and support.",
   },
 ];
 
@@ -98,7 +95,7 @@ export default function WhatWeDo() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600 mb-6">{service.description}</p>
+                  <p className="text-gray-600 text-lg mb-6">{service.description}</p>
                   <Button
                     variant="ghost"
                     className="text-orange-500 hover:text-orange-600 hover:bg-orange-50 group"

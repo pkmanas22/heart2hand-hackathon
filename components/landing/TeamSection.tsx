@@ -1,16 +1,21 @@
-'use client'
+"use client";
 
-import { motion } from 'framer-motion'
-import { Facebook, Twitter, Instagram } from 'lucide-react'
-import { Card, CardContent } from '@/components/ui/card'
-import { containerVariants, itemVariants, imageVariants, overlayVariants, socialIconVariants } from '@/lib/framer';
+import { motion } from "framer-motion";
+import { Facebook, Twitter, Instagram } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  containerVariants,
+  itemVariants,
+  imageVariants,
+  overlayVariants,
+  socialIconVariants,
+} from "@/lib/framer";
 
 const teamMembers = [
   {
-    name: "Manas Kumar Pradhan",
-    designation: "Tech Lead",
-    image:
-      "https://manaskpradhan.vercel.app/image%20resource/photo.jpg?height=400&width=300",
+    name: "Monalisa Rout",
+    designation: "MCA, OUTR",
+    image: "/monalisa.jpg",
     socials: {
       facebook: "#",
       twitter: "#",
@@ -19,9 +24,8 @@ const teamMembers = [
   },
   {
     name: "Manas Kumar Pradhan",
-    designation: "Tech Lead",
-    image:
-      "https://manaskpradhan.vercel.app/image%20resource/photo.jpg?height=400&width=300",
+    designation: "MCA, OUTR",
+    image: "/manas.jpg",
     socials: {
       facebook: "#",
       twitter: "#",
@@ -29,10 +33,9 @@ const teamMembers = [
     },
   },
   {
-    name: "Manas Kumar Pradhan",
-    designation: "Tech Lead",
-    image:
-      "https://manaskpradhan.vercel.app/image%20resource/photo.jpg?height=400&width=300",
+    name: "Udayakara Sahoo",
+    designation: "MCA, OUTR",
+    image: "/uday.jpg",
     socials: {
       facebook: "#",
       twitter: "#",
@@ -40,10 +43,9 @@ const teamMembers = [
     },
   },
   {
-    name: "Manas Kumar Pradhan",
-    designation: "Tech Lead",
-    image:
-      "https://manaskpradhan.vercel.app/image%20resource/photo.jpg?height=400&width=300",
+    name: "Abinash Nayak",
+    designation: "MCA, OUTR",
+    image: "/abinash.jpg",
     socials: {
       facebook: "#",
       twitter: "#",
@@ -54,7 +56,7 @@ const teamMembers = [
 
 export default function TeamSection() {
   return (
-    <section id='team' className="py-16 px-4 bg-gray-50">
+    <section id="team" className="py-16 px-4 bg-gray-50">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial="hidden"
@@ -71,13 +73,13 @@ export default function TeamSection() {
               Team Members
             </motion.span>
           </motion.div>
-          <motion.h2 
+          <motion.h2
             variants={itemVariants}
             className="text-3xl md:text-4xl font-bold tracking-tight mb-4"
           >
             Let&apos;s Meet With Our
           </motion.h2>
-          <motion.h3 
+          <motion.h3
             variants={itemVariants}
             className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900"
           >
@@ -85,7 +87,7 @@ export default function TeamSection() {
           </motion.h3>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -94,7 +96,7 @@ export default function TeamSection() {
           {teamMembers.map((member, index) => (
             <motion.div key={index} variants={itemVariants}>
               <Card className="overflow-hidden">
-                <motion.div 
+                <motion.div
                   className="relative overflow-hidden"
                   initial="hidden"
                   whileHover="hover"
@@ -105,7 +107,7 @@ export default function TeamSection() {
                     className="w-full h-[300px] object-cover"
                     variants={imageVariants}
                   />
-                  <motion.div 
+                  <motion.div
                     className="absolute inset-0 bg-black/60 flex items-center justify-center gap-4"
                     variants={overlayVariants}
                   >
@@ -118,15 +120,21 @@ export default function TeamSection() {
                         whileTap={{ scale: 0.9 }}
                         className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
                       >
-                        {platform === 'facebook' && <Facebook className="w-5 h-5" />}
-                        {platform === 'twitter' && <Twitter className="w-5 h-5" />}
-                        {platform === 'instagram' && <Instagram className="w-5 h-5" />}
+                        {platform === "facebook" && (
+                          <Facebook className="w-5 h-5" />
+                        )}
+                        {platform === "twitter" && (
+                          <Twitter className="w-5 h-5" />
+                        )}
+                        {platform === "instagram" && (
+                          <Instagram className="w-5 h-5" />
+                        )}
                       </motion.a>
                     ))}
                   </motion.div>
                 </motion.div>
                 <CardContent className="text-center p-6">
-                  <motion.h3 
+                  <motion.h3
                     className="font-bold text-lg mb-1"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -134,7 +142,7 @@ export default function TeamSection() {
                   >
                     {member.name}
                   </motion.h3>
-                  <motion.p 
+                  <motion.p
                     className="text-orange-500"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -149,6 +157,5 @@ export default function TeamSection() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }
-
