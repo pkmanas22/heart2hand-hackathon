@@ -1,9 +1,11 @@
 import { getRequestById } from "@/lib/firebase/utils";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async ( req: NextRequest, { params: { id } }: { params: { id: string } }, ) => {
+type tParams = Promise<{ id: string }>;
+
+export const GET = async (req: NextRequest, { params }: { params: tParams }) => {
     try {
-        const { message, success } = await getRequestById(id);
+        const { message, success } = await getRequestById((await params).id);
 
         if (!success) {
             return NextResponse.json({ error: message }, { status: 400 });

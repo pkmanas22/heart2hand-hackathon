@@ -47,27 +47,28 @@ const handler = NextAuth({
                     };
 
                     if (!email || !password) {
-                        throw Error("Email and password are required");
+                        console.error("Email and password are required");
+                        return null; // Return null for invalid input
                     }
 
                     const user = await fetchUserDetails(email);
-                    // console.log("Fetched user:", user);
 
                     if (!user || !user.hashedPassword) {
-                        throw Error("Invalid credentials");
+                        console.error("Invalid credentials");
+                        return null; // Return null for invalid credentials
                     }
 
-                    const isCorrectPassword =await bcrypt.compare(
+                    const isCorrectPassword = await bcrypt.compare(
                         password,
                         user.hashedPassword
                     );
 
-                    // console.log("Password match:", isCorrectPassword);
-
                     if (!isCorrectPassword) {
-                        throw new Error("Invalid credentials");
+                        console.error("Invalid password");
+                        return null; // Return null if the password is incorrect
                     }
 
+                    // Successfully authenticated
                     return {
                         id: user.id,
                         name: user.name,
@@ -76,9 +77,10 @@ const handler = NextAuth({
                     };
                 } catch (error) {
                     console.error("Authorize Error:", error);
-                    return error;
+                    return null; // Always return null on error
                 }
-            },
+            }
+
         })
     ],
     secret: process.env.AUTH_SECRET,

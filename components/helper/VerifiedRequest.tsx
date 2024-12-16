@@ -38,10 +38,25 @@ export default function VerifiedRequest() {
       const result = requestDoc.docs.map((doc) => {
         const data = doc.data();
 
-        const filteredData = {
+        const filteredData: RequestDetails = {
           id: doc.id,
-          ...data,
+          youtubeVideoId: data.youtubeVideoId || "",
+          story: data.story || "",
+          name: data.name || "Unknown",
+          amount: data.amount || 0,
+          amountCollected: data.amountCollected || 0,
+          userId: data.userId || "",
+          address: data.address || "",
+          status: data.status || "pending",
+          createdAt: data.createdAt || new Date().toISOString(),
+          supportingDocuments: data.supportingDocuments || [],
+          age: data.age || 0,
+          category: data.category || "uncategorized",
+          phone: data.phone || "",
+          title: data.title || "",
+          remark: data.remark || "",
         };
+
         return filteredData;
       });
       setRequests(result);

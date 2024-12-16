@@ -43,12 +43,32 @@ export default function RequestDetail({ id }: { id: string }) {
         }
 
         const data = requestDoc.data()
+
+        if (!data) {
+          alert("No data found");
+          return;
+        }
         // console.log("data", requestDoc)
 
-        const filteredData = {
-          id: requestDoc.id,
-          ...data
+       const filteredData: RequestDetails = {
+         id: requestDoc.id,
+         youtubeVideoId: data.youtubeVideoId || "",
+         story: data.story || "",
+         name: data.name || "Unknown",
+         amount: data.amount || 0,
+         amountCollected: data.amountCollected || 0,
+         userId: data.userId || "",
+         address: data.address || "",
+         status: data.status || "pending",
+         createdAt: data.createdAt || new Date().toISOString(),
+         supportingDocuments: data.supportingDocuments || [],
+         age: data.age || 0,
+         category: data.category || "uncategorized",
+         phone: data.phone || "",
+         title: data.title || "",
+         remark: data.remark || "",
         };
+        
         // console.log(filteredData)
         setRequest(filteredData);
       } catch (error) {

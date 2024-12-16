@@ -27,7 +27,7 @@ export default function Dashboard() {
           setActiveView={setActiveView}
         />
         <div className="flex flex-col w-screen overflow-y-scroll">
-          <Header name="John Doe" />
+          <Header/>
           <main className="p-6">
             {activeView === "overview" && <DashboardOverview />}
             {activeView === "create" && <CreateNewRequest />}
